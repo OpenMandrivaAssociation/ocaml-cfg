@@ -1,6 +1,6 @@
 Name:		ocaml-cfg
 Version:	1.7.5
-Release:        %mkrel 1
+Release:        %mkrel 2
 Summary:        Library for manipulation of context-free grammars (CFGs)
 License:        LGPL
 Group:          Development/Other
