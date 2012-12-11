@@ -70,3 +70,15 @@ rm -rf %{buildroot}
 %{_libdir}/ocaml/cfg/*.cmxa
 %{_libdir}/ocaml/cfg/*.mli
 
+
+
+%changelog
+* Sat Jun 27 2009 Guillaume Rousse <guillomovitch@mandriva.org> 1.7.5-2mdv2010.0
++ Revision: 390028
+- rebuild
+
+* Tue Jan 27 2009 Florent Monnier <blue_prawn@mandriva.org> 1.7.5-1mdv2009.1
++ Revision: 334523
+- import ocaml-cfg
+
+
