@@ -1,17 +1,18 @@
+%define _enable_debug_packages %{nil}
+%define debug_package %{nil}
+
+Summary:	Library for manipulation of context-free grammars (CFGs)
 Name:		ocaml-cfg
-Version:	1.7.5
-Release:        %mkrel 2
-Summary:        Library for manipulation of context-free grammars (CFGs)
-License:        LGPL
-Group:          Development/Other
-URL:		http://ocaml.info/home/ocaml_sources.html#cfg
-Source0:	http://hg.ocaml.info/release/cfg/archive/cfg-release-%{version}.tar.bz2
-# curl http://hg.ocaml.info/release/cfg/archive/release-%{version}.tar.bz2 > cfg-release-%{version}.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}
-BuildRequires:  ocaml
-BuildRequires:  ocaml-findlib
-BuildRequires:  tetex-latex
-BuildRequires:  gzip
+Version:	2.0.1
+Release:	1
+License:	LGPL with static compilation exception
+Group:		Development/Other
+Url:		https://bitbucket.org/mmottl/cfg
+Source0:	https://bitbucket.org/mmottl/cfg/downloads/cfg-%{version}.tar.gz
+BuildRequires:	menhir
+BuildRequires:	ocaml
+BuildRequires:	ocaml-findlib
+BuildRequires:	tetex-latex
 
 %description
 This OCaml-library consists of a set of modules which implement functions
@@ -25,60 +26,48 @@ entities that fill the demanded specification (see the interface in
 Thus, you may use this module for any kind of symbol system and any kind of
 representation which can be treated like a CFG.
 
-%package        devel
-Summary:        Development files for %{name}
-Group:          Development/Other
-Requires:       %{name} = %{version}-%{release}
+%files
+%doc README.md COPYING.txt CHANGES.txt AUTHORS.txt
+%dir %{_libdir}/ocaml/cfg
+%{_libdir}/ocaml/cfg/META
+%{_libdir}/ocaml/cfg/*.cmi
+%{_libdir}/ocaml/cfg/*.cma
+%{_libdir}/ocaml/cfg/*.cmxs
 
-%description    devel
+#----------------------------------------------------------------------------
+
+%package devel
+Summary:	Development files for %{name}
+Group:		Development/Other
+Requires:	%{name} = %{EVRD}
+
+%description devel
 The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
 
-%prep
-%setup -q -n cfg-release-%{version}
-
-%build
-make
-make doc
-gzip --best doc/cfg/latex/doc.ps
-
-%install
-rm -rf %{buildroot}
-export DESTDIR=%{buildroot}
-export OCAMLFIND_DESTDIR=%{buildroot}/%{_libdir}/ocaml
-mkdir -p $OCAMLFIND_DESTDIR/cfg
-make install
-
-%clean
-rm -rf %{buildroot}
-
-%files
-%defattr(-,root,root)
-%doc LICENSE
-%dir %{_libdir}/ocaml/cfg
-%{_libdir}/ocaml/cfg/META
-%{_libdir}/ocaml/cfg/*.cma
-%{_libdir}/ocaml/cfg/*.cmi
-
 %files devel
-%defattr(-,root,root)
-%doc README.txt LICENSE Changes  
-%doc doc/cfg/html
-%doc doc/cfg/latex/*.{dvi,pdf,ps.gz}
-%doc examples
+%doc html/
+%doc examples/
 %{_libdir}/ocaml/cfg/*.a
 %{_libdir}/ocaml/cfg/*.cmxa
+%{_libdir}/ocaml/cfg/*.cmx
 %{_libdir}/ocaml/cfg/*.mli
+%{_libdir}/ocaml/cfg/*.ml
 
+#----------------------------------------------------------------------------
 
+%prep
+%setup -q -n cfg-%{version}
 
-%changelog
-* Sat Jun 27 2009 Guillaume Rousse <guillomovitch@mandriva.org> 1.7.5-2mdv2010.0
-+ Revision: 390028
-- rebuild
+%build
+./configure
+make
+make doc
+mv _build/API.docdir/ html
 
-* Tue Jan 27 2009 Florent Monnier <blue_prawn@mandriva.org> 1.7.5-1mdv2009.1
-+ Revision: 334523
-- import ocaml-cfg
-
+%install
+export DESTDIR=%{buildroot}
+export OCAMLFIND_DESTDIR=%{buildroot}%{_libdir}/ocaml
+mkdir -p $OCAMLFIND_DESTDIR/cfg
+make install
 
