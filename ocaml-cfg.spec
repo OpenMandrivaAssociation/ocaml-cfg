@@ -9,6 +9,11 @@ License:	LGPL with static compilation exception
 Group:		Development/Other
 Url:		https://bitbucket.org/mmottl/cfg
 Source0:	https://bitbucket.org/mmottl/cfg/downloads/cfg-%{version}.tar.gz
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	menhir
 BuildRequires:	ocaml
 BuildRequires:	ocaml-findlib
